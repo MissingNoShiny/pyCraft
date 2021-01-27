@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
 import getpass
+import json
 import sys
 import re
+import time
 from optparse import OptionParser
 
 from minecraft import authentication
@@ -109,6 +111,15 @@ def main():
 
     connection.register_packet_listener(
         print_chat, clientbound.play.ChatMessagePacket)
+
+    def handle_zzz(chat_packet):
+        if json.loads(chat_packet.json_data)["with"][-1] == "zzz":
+            connection.disconnect()
+            time.sleep(5)
+            connection.connect()
+            
+    connection.register_packet_listener(
+        handle_zzz, clientbound.play.ChatMessagePacket)        
 
     connection.connect()
 
