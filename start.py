@@ -113,7 +113,7 @@ def main():
         print_chat, clientbound.play.ChatMessagePacket)
 
     def handle_zzz(chat_packet):
-        if json.loads(chat_packet.json_data)["with"][-1] == "zzz":
+        if json.loads(chat_packet.json_data).get("with", " ")[-1] == "zzz":
             connection.disconnect()
             time.sleep(5)
             connection.connect()
